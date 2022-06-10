@@ -5,12 +5,19 @@
 {% endblock title %}
 {% block page %}
     <h1 class="text-center">
-        <span class="badge bg-primary content-center">Images</span>
+        <span>Images:</span>
     </h1>
     <div class="container">
         <div class="row">
-            <div class="col text-center">
-                <p>szybka zmiana</p>
+            {% for image in images %}
+                <div class="col text-center">
+                    <p>szybka zmiana</p>
+                    {% if image.image %}
+                        <img class="thumbnail"
+                             src="{{ image.image_url }}"
+                             alt="image for some reason cannot be displayed"/>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
     </div>
