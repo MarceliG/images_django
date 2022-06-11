@@ -10,14 +10,10 @@
         </h1>
         {% for image in images %}
             {% if image.image %}
-                <img class="thumbnail"
-                     id="figure"
-                     src="{{ image.image_url }}"
-                     alt="image for some reason cannot be displayed"/>
-            {% else %}
-                <img class="thumbnail"
-                     src="{% static 'images/no_image.jpg' %}"
-                     alt="image for some reason cannot be displayed"/>
+                <p>
+                    <a href="{{ image.image_url }}">{{ image.name }}</a>
+                </p>
+                {% comment %} <img class="thumbnail" id="figure" src="{{ image.image_url }}" alt="image for some reason cannot be displayed"/> {% endcomment %}
             {% endif %}
         {% endfor %}
     </div>
