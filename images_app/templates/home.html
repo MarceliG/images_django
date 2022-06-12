@@ -5,7 +5,12 @@
 {% endblock title %}
 {% block page %}
     <div>
-        <h1 class="text-center">
+        <h4>
+            <a href="{% url 'login' %}">Login</a>
+        </h4>
+    </div>
+    <div>
+        <h1 class="text">
             <span>Images:</span>
         </h1>
         {% for image in images %}
@@ -13,7 +18,6 @@
                 <p>
                     <a href="{{ image.image_url }}">{{ image.name }}</a>
                 </p>
-                {% comment %} <img class="thumbnail" id="figure" src="{{ image.image_url }}" alt="image for some reason cannot be displayed"/> {% endcomment %}
             {% endif %}
         {% endfor %}
     </div>
