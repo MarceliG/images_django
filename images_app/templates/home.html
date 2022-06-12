@@ -1,24 +1,20 @@
-{% extends "core.html" %}
+{% extends "main.html" %}
 {% load static %}
 {% block title %}
     Home
 {% endblock title %}
 {% block page %}
-    <h1 class="text-center">
-        <span>Images:</span>
-    </h1>
-    <div class="container">
-        <div class="row">
-            {% for image in images %}
-                <div class="col text-center">
-                    <p>szybka zmiana</p>
-                    {% if image.image %}
-                        <img class="thumbnail"
-                             src="{{ image.image_url }}"
-                             alt="image for some reason cannot be displayed"/>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
+    <div>
+        <h1 class="text-center">
+            <span>Images:</span>
+        </h1>
+        {% for image in images %}
+            {% if image.image %}
+                <p>
+                    <a href="{{ image.image_url }}">{{ image.name }}</a>
+                </p>
+                {% comment %} <img class="thumbnail" id="figure" src="{{ image.image_url }}" alt="image for some reason cannot be displayed"/> {% endcomment %}
+            {% endif %}
+        {% endfor %}
     </div>
 {% endblock page %}
