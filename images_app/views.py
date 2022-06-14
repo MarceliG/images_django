@@ -1,8 +1,12 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import viewsets
+
+from members.views import login_user
 from .serializers import UserSerializer
 from .models import *
+from .decorators import unathenticated_user, admin_only, allowed_users
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -10,6 +14,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
+# @allowed_users(allowed_roles=["admin", "basic", "premium", "enterprice"])
 def home(request):
     """Home(main) page
 
