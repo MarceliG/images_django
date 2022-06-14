@@ -11,6 +11,11 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 def home(request):
+    """Home(main) page
+
+    Returns:
+        Render html.
+    """
     images = Image.objects.all()
     context = {
         "images": images,
