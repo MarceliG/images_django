@@ -30,6 +30,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("images_app.urls")),
     path("rest/", include(router.urls)),
+    path("members/", include("django.contrib.auth.urls")),
+    path("members/", include("members.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
