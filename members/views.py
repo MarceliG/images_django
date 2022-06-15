@@ -4,6 +4,11 @@ from django.contrib import messages
 
 
 def login_user(request):
+    """Try login user.
+
+    Returns:
+        If user authenticate go back to home page. If not try again.
+    """
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
@@ -21,6 +26,11 @@ def login_user(request):
 
 
 def logout_user(request):
+    """Try logout user.
+
+    Returns:
+        Go back to home page.
+    """
     logout(request)
     messages.success(request, ("you were logged out."))
     return redirect("home")
