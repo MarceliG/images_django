@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from images_app.models import Image
 
-# Serializers define the API representation.
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
@@ -13,4 +13,4 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = ["id", "image"]
+        fields = ["id", "name", "image"]
