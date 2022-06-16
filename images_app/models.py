@@ -5,6 +5,11 @@ import os
 
 
 def filename_image(filename, size):
+    """Prepare image name.
+
+    Returns:
+        name
+    """
     extension = filename.split(".")[-1]
     name = filename.split(".")[0]
     return "{}_{}px.{}".format(name, size, extension)
@@ -17,7 +22,7 @@ def thumbnail_image(image_input, size=(200, 200)):
         return
 
     image = Image.open(image_input)
-    image = ImageOps.exif_transpose(image)
+    image = ImageOps.exif_transpose(image)  # stop autorotate
     image.thumbnail(size, Image.ANTIALIAS)
     new_filename = filename_image(image_input.name, size[0])
     image.save(os.path.join(settings.MEDIA_ROOT, new_filename))
@@ -54,14 +59,8 @@ class ImageModel(models.Model):
             url = ""
         return url
 
-    def save(
-        self,
-        force_insert=False,
-        force_update=False,
-        using=None,
-        update_fields=None,
-    ):
+    def save(self):
         """When save generate thumbnail."""
         self.thumbnail_200px = thumbnail_image(self.image, size=(200, 200))
         self.thumbnail_400px = thumbnail_image(self.image, size=(400, 400))
-        super(ImageModel, self).save(force_update=force_update)
+        super(ImageModel, self).save()
