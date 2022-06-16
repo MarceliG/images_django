@@ -1,9 +1,33 @@
+from django.conf import settings
 from django.db import models
+from PIL import Image
+import os
 
 
-class Image(models.Model):
+def filename_image(filename, size):
+    extension = filename.split(".")[-1]
+    name = filename.split(".")[0]
+    return "{}_{}px.{}".format(name, size, extension)
+
+
+def thumbnail_image(image_input, size=(200, 200)):
+    """Create image with diffrent resolution."""
+
+    if not image_input or image_input == "":
+        return
+
+    image = Image.open(image_input)
+    image.thumbnail(size, Image.ANTIALIAS)
+    new_filename = filename_image(image_input.name, size[0])
+    image.save(os.path.join(settings.MEDIA_ROOT, new_filename))
+
+    return new_filename
+
+
+class ImageModel(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(null=True, blank=True)
+    thumbnail = models.ImageField(blank=True)
 
     def info(self):
         """fuction display neaded information.
@@ -27,3 +51,14 @@ class Image(models.Model):
         except:
             url = ""
         return url
+
+    def save(
+        self,
+        force_insert=False,
+        force_update=False,
+        using=None,
+        update_fields=None,
+    ):
+        """When save generate thumbnail."""
+        self.thumbnail = thumbnail_image(self.image)
+        super(ImageModel, self).save(force_update=force_update)

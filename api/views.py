@@ -12,5 +12,5 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class ImageViewSet(viewsets.ModelViewSet):
-    queryset = Image.objects.all()
+    queryset = ImageModel.objects.all()
     serializer_class = ImageSerializer

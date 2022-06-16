@@ -13,7 +13,7 @@ def home(request):
     Returns:
         Render html.
     """
-    images = Image.objects.all()
+    images = ImageModel.objects.all()
     context = {
         "images": images,
     }
