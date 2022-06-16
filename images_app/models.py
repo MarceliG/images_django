@@ -59,8 +59,14 @@ class ImageModel(models.Model):
             url = ""
         return url
 
-    def save(self):
+    def save(
+        self,
+        force_insert=False,
+        force_update=False,
+        using=None,
+        update_fields=None,
+    ):
         """When save generate thumbnail."""
         self.thumbnail_200px = thumbnail_image(self.image, size=(200, 200))
         self.thumbnail_400px = thumbnail_image(self.image, size=(400, 400))
-        super(ImageModel, self).save()
+        super(ImageModel, self).save(force_update=force_update)
