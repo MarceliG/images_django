@@ -1,36 +1,24 @@
 from django.conf import settings
 from django.db import models
+from django.contrib.auth.models import User, Group
 from PIL import Image, ImageOps
 import os
 
 
-def filename_image(filename, size):
-    """Prepare image name.
+class Client(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    grup = models.ForeignKey(Group, on_delete=models.CASCADE)
 
-    Returns:
-        name
-    """
-    extension = filename.split(".")[-1]
-    name = filename.split(".")[0]
-    return "{}_{}px.{}".format(name, size, extension)
-
-
-def thumbnail_image(image_input, size=(200, 200)):
-    """Create image with diffrent resolution."""
-
-    if not image_input or image_input == "":
-        return
-
-    image = Image.open(image_input)
-    image = ImageOps.exif_transpose(image)  # stop autorotate
-    image.thumbnail(size, Image.ANTIALIAS)
-    new_filename = filename_image(image_input.name, size[0])
-    image.save(os.path.join(settings.MEDIA_ROOT, new_filename))
-
-    return new_filename
+    def __str__(self):
+        """
+        Returns:
+            information
+        """
+        return "{}".format(self.user)
 
 
 class ImageModel(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
     image = models.ImageField(null=True, blank=True)
     thumbnail_200px = models.ImageField(blank=True)
@@ -70,3 +58,29 @@ class ImageModel(models.Model):
         self.thumbnail_200px = thumbnail_image(self.image, size=(200, 200))
         self.thumbnail_400px = thumbnail_image(self.image, size=(400, 400))
         super(ImageModel, self).save(force_update=force_update)
+
+
+def filename_image(filename, size):
+    """Prepare image name.
+
+    Returns:
+        name
+    """
+    extension = filename.split(".")[-1]
+    name = filename.split(".")[0]
+    return "{}_{}px.{}".format(name, size, extension)
+
+
+def thumbnail_image(image_input, size=(200, 200)):
+    """Create image with diffrent resolution."""
+
+    if not image_input or image_input == "":
+        return
+
+    image = Image.open(image_input)
+    image = ImageOps.exif_transpose(image)  # stop autorotate
+    image.thumbnail(size, Image.ANTIALIAS)
+    new_filename = filename_image(image_input.name, size[0])
+    image.save(os.path.join(settings.MEDIA_ROOT, new_filename))
+
+    return new_filename
