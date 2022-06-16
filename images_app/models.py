@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-from PIL import Image
+from PIL import Image, ImageOps
 import os
 
 
@@ -17,6 +17,7 @@ def thumbnail_image(image_input, size=(200, 200)):
         return
 
     image = Image.open(image_input)
+    image = ImageOps.exif_transpose(image)
     image.thumbnail(size, Image.ANTIALIAS)
     new_filename = filename_image(image_input.name, size[0])
     image.save(os.path.join(settings.MEDIA_ROOT, new_filename))
@@ -27,7 +28,8 @@ def thumbnail_image(image_input, size=(200, 200)):
 class ImageModel(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(null=True, blank=True)
-    thumbnail = models.ImageField(blank=True)
+    thumbnail_200px = models.ImageField(blank=True)
+    thumbnail_400px = models.ImageField(blank=True)
 
     def info(self):
         """fuction display neaded information.
@@ -60,5 +62,6 @@ class ImageModel(models.Model):
         update_fields=None,
     ):
         """When save generate thumbnail."""
-        self.thumbnail = thumbnail_image(self.image)
+        self.thumbnail_200px = thumbnail_image(self.image, size=(200, 200))
+        self.thumbnail_400px = thumbnail_image(self.image, size=(400, 400))
         super(ImageModel, self).save(force_update=force_update)
