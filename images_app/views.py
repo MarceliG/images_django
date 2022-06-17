@@ -1,10 +1,6 @@
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from members.views import login_user
+from django.shortcuts import render
 from .models import *
 from .forms import *
-from .decorators import unathenticated_user, admin_only, allowed_users
-from django.core.files.storage import FileSystemStorage
 
 
 # @allowed_users(allowed_roles=["admin", "basic", "premium", "enterprice"])
@@ -16,10 +12,26 @@ def home(request):
     """
 
     images = ImageModel.objects.all()
-    user = request.user
-    form = ImageForm(instance=user)
+    form = ImageForm()
+    username = None
+
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            form = ImageForm(data=request.POST, files=request.FILES)
+            form.object.client = request.user
+            if form.is_valid():
+                form.Client = request.user
+                print(request.user)
+                form.save()
+                return render(
+                    request,
+                    "home.html",
+                    context={"images": images, "form": form},
+                )
+
     context = {
         "images": images,
         "form": form,
+        "username": username,
     }
     return render(request, "home.html", context)

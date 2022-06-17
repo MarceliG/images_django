@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User, Group
@@ -18,7 +19,12 @@ class Client(models.Model):
 
 
 class ImageModel(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True)
+    client = models.ForeignKey(
+        Client,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name="imagemodel_set",
+    )
     name = models.CharField(max_length=100, blank=True)
     image = models.ImageField(null=True, blank=True)
     thumbnail_200px = models.ImageField(blank=True)
@@ -39,7 +45,7 @@ class ImageModel(models.Model):
         using=None,
         update_fields=None,
     ):
-        """When save generate thumbnail."""
+        """When save"""
         self.name = filename_image(self.image)
         self.thumbnail_200px = thumbnail_image(self.image, size=(200, 200))
         self.thumbnail_400px = thumbnail_image(self.image, size=(400, 400))

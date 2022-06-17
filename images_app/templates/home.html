@@ -21,7 +21,7 @@
                 {% csrf_token %}
                 {{ form.as_p }}
                 <br>
-                <button class="btn btn-success my-2" type="update">Update</button>
+                <button class="btn btn-success my-2" type="submit">Update</button>
             </form>
         </body>
         <hr>
@@ -34,15 +34,19 @@
             <h6>{{ user }}</h6>
             <h6>{{ user.groups.all.0 }}</h6>
         {% endif %}
-        {% for image in images %}
-            {% if image.image %}
-                {{ image.client }}
-                {{ user.groups.all.0 }}
-                <p>
-                    <a href="{{ image.image_url }}">{{ image.name }}</a>
-                </p>
-                {% if image.client == user.groups.all.0 %}{% endif %}
-            {% endif %}
-        {% endfor %}
+        {% if user.is_authenticated %}
+            {% for image in images %}
+                {% if image.image %}
+                    {{ user }}
+                    {{ user.groups.all.0 }}
+                    <p>
+                        <a href="{{ image.image_url }}">{{ image.name }}</a>
+                    </p>
+                    {% if image.client == user.groups.all.0 %}{% endif %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <h4>You are not authenticated</h4>
+        {% endif %}
     </div>
 {% endblock page %}
