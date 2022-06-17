@@ -10,10 +10,20 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ImageSerializer(serializers.ModelSerializer):
+    client = serializers.ReadOnlyField(source="client.user.username")
+    
     class Meta:
         model = ImageModel
-        fields = ("id", "name", "image", "thumbnail_200px", "thumbnail_400px")
+        fields = [
+            "id",
+            "client",
+            "name",
+            "image",
+            "thumbnail_200px",
+            "thumbnail_400px",
+        ]
         extra_kwargs = {
+            "name": {"read_only": True},
             "thumbnail_200px": {"read_only": True},
             "thumbnail_400px": {"read_only": True},
         }

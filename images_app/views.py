@@ -18,7 +18,6 @@ def home(request):
     if request.user.is_authenticated:
         if request.method == "POST":
             form = ImageForm(data=request.POST, files=request.FILES)
-            form.object.client = request.user
             if form.is_valid():
                 form.Client = request.user
                 print(request.user)
