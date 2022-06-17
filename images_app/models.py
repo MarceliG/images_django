@@ -19,25 +19,10 @@ class Client(models.Model):
 
 class ImageModel(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, blank=True)
     image = models.ImageField(null=True, blank=True)
     thumbnail_200px = models.ImageField(blank=True)
     thumbnail_400px = models.ImageField(blank=True)
-
-    def info(self):
-        """fuction display neaded information.
-
-        Returns:
-            name image
-        """
-        return "{}".format(self.name)
-
-    def __str__(self):
-        """
-        Returns:
-            information contained in the `info()`
-        """
-        return self.info()
 
     @property
     def image_url(self):
@@ -55,20 +40,36 @@ class ImageModel(models.Model):
         update_fields=None,
     ):
         """When save generate thumbnail."""
+        self.name = filename_image(self.image)
         self.thumbnail_200px = thumbnail_image(self.image, size=(200, 200))
         self.thumbnail_400px = thumbnail_image(self.image, size=(400, 400))
         super(ImageModel, self).save(force_update=force_update)
 
+    def __str__(self):
+        """
+        Returns:
+            name
+        """
+        return "{}".format(self.name)
 
-def filename_image(filename, size):
-    """Prepare image name.
+
+def filename_image(filename, *args):
+    """Prepare image name. If don't send size image return only name.
+
+    Args:
+        filename = image name
+        args = size
 
     Returns:
-        name
+       name or name and size
     """
-    extension = filename.split(".")[-1]
+    filename = str(filename)
     name = filename.split(".")[0]
-    return "{}_{}px.{}".format(name, size, extension)
+    if args == ():
+        return "{}".format(name)
+    else:
+        extension = filename.split(".")[-1]
+        return "{}_{}px.{}".format(name, args[0], extension)
 
 
 def thumbnail_image(image_input, size=(200, 200)):
