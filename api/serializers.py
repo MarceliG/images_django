@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from images_app.models import ImageModel
+from images_app.models import ImageModel, Client
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -10,8 +10,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ImageSerializer(serializers.ModelSerializer):
-    client = serializers.ReadOnlyField(source="client.user.username")
-    
     class Meta:
         model = ImageModel
         fields = [
@@ -27,3 +25,12 @@ class ImageSerializer(serializers.ModelSerializer):
             "thumbnail_200px": {"read_only": True},
             "thumbnail_400px": {"read_only": True},
         }
+
+
+class ClientSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source="user.username")
+    grup = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
+
+    class Meta:
+        model = Client
+        fields = ["id", "user", "grup"]
