@@ -14,15 +14,39 @@
         </h4>
     </div>
     <div>
+        <hr>
+        <h2>Add new image</h2>
+        <body>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <br>
+                <button class="btn btn-success my-2" type="submit">Update</button>
+            </form>
+        </body>
+        <hr>
+    </div>
+    <div>
         <h1 class="text">
             <span>Images:</span>
         </h1>
-        {% for image in images %}
-            {% if image.image %}
-                <p>
-                    <a href="{{ image.image_url }}">{{ image.name }}</a>
-                </p>
-            {% endif %}
-        {% endfor %}
+        {% if user.is_authenticated %}
+            <h6>{{ user }}</h6>
+            <h6>{{ user.groups.all.0 }}</h6>
+        {% endif %}
+        {% if user.is_authenticated %}
+            {% for image in images %}
+                {% if image.image %}
+                    {{ user }}
+                    {{ user.groups.all.0 }}
+                    <p>
+                        <a href="{{ image.image_url }}">{{ image.name }}</a>
+                    </p>
+                    {% if image.client == user.groups.all.0 %}{% endif %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <h4>You are not authenticated</h4>
+        {% endif %}
     </div>
 {% endblock page %}
