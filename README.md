@@ -20,7 +20,8 @@ In Project is three build accounts with different possibilities: Basic, Premium,
 ## Run docker
 In terminal write:
 ```
-docker-compose up
+docker build --tag python-django .  # build container
+docker-compose up   # run docker container
 ```
 
 
