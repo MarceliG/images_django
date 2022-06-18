@@ -7,7 +7,11 @@ import os
 
 
 class Client(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="client",
+    )
     grup = models.ForeignKey(Group, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -23,7 +27,7 @@ class ImageModel(models.Model):
         Client,
         on_delete=models.CASCADE,
         null=True,
-        related_name="imagemodel_set",
+        related_name="imagemodel",
     )
     name = models.CharField(max_length=100, blank=True)
     image = models.ImageField(null=True, blank=True)
