@@ -1,3 +1,4 @@
+from urllib import request
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from images_app.models import ImageModel, Client
@@ -22,9 +23,11 @@ class ImageSerializer(serializers.ModelSerializer):
         ]
         extra_kwargs = {
             "name": {"read_only": True},
+            "client": {"read_only": True},
             "thumbnail_200px": {"read_only": True},
             "thumbnail_400px": {"read_only": True},
         }
+
 
 
 class ClientSerializer(serializers.ModelSerializer):
