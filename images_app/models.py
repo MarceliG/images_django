@@ -34,14 +34,6 @@ class ImageModel(models.Model):
     thumbnail_200px = models.ImageField(blank=True)
     thumbnail_400px = models.ImageField(blank=True)
 
-    @property
-    def image_url(self):
-        try:
-            url = self.image.url
-        except:
-            url = ""
-        return url
-
     def save(
         self,
         force_insert=False,

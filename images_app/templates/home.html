@@ -31,16 +31,14 @@
             <span>Images:</span>
         </h1>
         {% if user.is_authenticated %}
-            <h6>{{ user }}</h6>
-            <h6>{{ user.groups.all.0 }}</h6>
-        {% endif %}
-        {% if user.is_authenticated %}
             {% for image in images %}
                 {% if image.image %}
-                    {{ user }}
-                    {{ user.groups.all.0 }}
                     <p>
-                        <a href="{{ image.image_url }}">{{ image.name }}</a>
+                        <strong>orginal: </strong><a href="{{ image.image.url }}">{{ image.name }}</a>
+                        <br>
+                        <strong>thumbnail 200px: </strong><a href="{{ image.thumbnail_200px.url }}">{{ image.thumbnail_200px }}</a>
+                        <br>
+                        <strong>thumbnail 400px: </strong><a href="{{ image.thumbnail_400px.url }}">{{ image.thumbnail_400px }}</a>
                     </p>
                     {% if image.client == user.groups.all.0 %}{% endif %}
                 {% endif %}
