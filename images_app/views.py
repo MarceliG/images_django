@@ -14,8 +14,6 @@ def home(request):
     images = []
     form = ImageForm()
     user = request.user
-    print(user)
-    print(user.is_staff)
     if request.user.is_authenticated:
         if user.is_staff:
             images = ImageModel.objects.all()
