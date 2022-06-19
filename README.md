@@ -17,6 +17,15 @@ In Project is three build accounts with different possibilities: Basic, Premium,
     - a link to a thumbnail that's 400px in height
     - a link to the originally uploaded image
 
+##  Users
+If you want to log in as previously prepared users, use the username and password below.
+| Username  | Password |
+| :---: | :---: |
+| admin  | admin  |
+| basic  | basic  |
+| premium  | premium  |
+| enterprise  | enterprise  |
+
 ## Run docker
 In terminal write:
 ```
