@@ -17,13 +17,13 @@ def home(request):
     if request.user.is_authenticated:
         if user.is_staff:
             images = ImageModel.objects.all()
-        else:
-            images = user.client.imagemodel.all()
+        # else:
+        # images = user.client.imagemodel.all()
 
         if request.method == "POST":
             form = ImageForm(data=request.POST, files=request.FILES)
             if form.is_valid():
-                form.Client = request.user
+                # form.Client = request.user
                 form.save()
                 return render(
                     request,
