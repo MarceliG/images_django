@@ -5,29 +5,29 @@ from PIL import Image, ImageOps
 import os
 
 
-class Client(models.Model):
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        related_name="client",
-    )
-    grup = models.ForeignKey(Group, on_delete=models.CASCADE)
+# class Client(models.Model):
+#     user = models.OneToOneField(
+#         User,
+#         on_delete=models.CASCADE,
+#         related_name="client",
+#     )
+#     grup = models.ForeignKey(Group, on_delete=models.CASCADE)
 
-    def __str__(self):
-        """
-        Returns:
-            information
-        """
-        return "{}".format(self.user)
+#     def __str__(self):
+#         """
+#         Returns:
+#             information
+#         """
+#         return "{}".format(self.user)
 
 
 class ImageModel(models.Model):
-    client = models.ForeignKey(
-        Client,
-        on_delete=models.CASCADE,
-        null=True,
-        related_name="imagemodel",
-    )
+    # client = models.ForeignKey(
+    #     Client,
+    #     on_delete=models.CASCADE,
+    #     null=True,
+    #     related_name="imagemodel",
+    # )
     name = models.CharField(max_length=100, blank=True)
     image = models.ImageField(null=True, blank=True)
     thumbnail_200px = models.ImageField(blank=True)
