@@ -1,13 +1,13 @@
 from urllib import request
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from images_app.models import ImageModel, Client
+from images_app.models import ImageModel
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ["username", "email"]
+# class UserSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ["username", "email"]
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -15,7 +15,7 @@ class ImageSerializer(serializers.ModelSerializer):
         model = ImageModel
         fields = [
             "id",
-            "client",
+            # "client",
             "name",
             "image",
             "thumbnail_200px",
@@ -29,11 +29,10 @@ class ImageSerializer(serializers.ModelSerializer):
         }
 
 
+# class ClientSerializer(serializers.ModelSerializer):
+#     user = serializers.ReadOnlyField(source="user.username")
+#     grup = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
 
-class ClientSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source="user.username")
-    grup = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
-
-    class Meta:
-        model = Client
-        fields = ["id", "user", "grup"]
+#     class Meta:
+#         model = Client
+#         fields = ["id", "user", "grup"]
