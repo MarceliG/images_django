@@ -1,0 +1,18 @@
+services:
+  db_test:
+    image: postgres
+    volumes:
+      - ./test_data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  web:
+    depends_on:
+      - db_test
+  test:
+    build: testService
+    depends_on:
+      - web
+    volumes:
+      - htmlcov:/code/htmlcov
