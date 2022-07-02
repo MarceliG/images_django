@@ -1,5 +1,7 @@
+version: "3.9"
+
 services:
-  db_test:
+  db:
     image: postgres
     volumes:
       - ./test_data/db:/var/lib/postgresql/data
@@ -8,11 +10,24 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
   web:
-    depends_on:
-      - db_test
-  test:
-    build: testService
-    depends_on:
-      - web
+    build: .
+    command: >
+      sh -c "python manage.py collectstatic --noinput &&
+             python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - htmlcov:/code/htmlcov
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
+  tests:
+    build: ./testService
+    depends_on:
+      - db
+      - web

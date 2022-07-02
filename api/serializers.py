@@ -1,21 +1,38 @@
-from urllib import request
-from django.contrib.auth.models import User
+from dataclasses import field
 from rest_framework import serializers
-from images_app.models import ImageModel
+from images_app.models import UserImage
+from users.models import CustomUser, Tier
 
 
-# class UserSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ["username", "email"]
+class CustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ["id", "username", "tier", "is_staff", "is_active"]
+
+        extra_kwargs = {
+            "username": {"read_only": True},
+            "tier": {"read_only": True},
+            "is_staff": {"read_only": True},
+            "is_active": {"read_only": True},
+        }
+
+
+class TierSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tier
+        fields = ["id", "tier"]
+
+        extra_kwargs = {
+            "tier": {"read_only": True},
+        }
 
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ImageModel
+        model = UserImage
         fields = [
             "id",
-            # "client",
+            "custom_user",
             "name",
             "image",
             "thumbnail_200px",
@@ -23,7 +40,7 @@ class ImageSerializer(serializers.ModelSerializer):
         ]
         extra_kwargs = {
             "name": {"read_only": True},
-            "client": {"read_only": True},
+            "custom_user": {"read_only": True},
             "thumbnail_200px": {"read_only": True},
             "thumbnail_400px": {"read_only": True},
         }

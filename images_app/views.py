@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import *
-from .forms import *
+from images_app.models import UserImage
+from images_app.forms import ImageForm
 
 
 # @allowed_users(allowed_roles=["admin", "basic", "premium", "enterprice"])
@@ -16,7 +16,7 @@ def home(request):
     user = request.user
     if request.user.is_authenticated:
         if user.is_staff:
-            images = ImageModel.objects.all()
+            images = UserImage.objects.all()
         # else:
         # images = user.client.imagemodel.all()
 
