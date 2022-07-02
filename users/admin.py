@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from .models import CustomUser, Tier
 
 
 class UserAdminConfig(UserAdmin):
@@ -12,7 +12,12 @@ class UserAdminConfig(UserAdmin):
     fieldsets = (
         (
             None,
-            {"fields": ("username",)},
+            {
+                "fields": (
+                    "username",
+                    "tier",
+                )
+            },
         ),
         (
             "Permissions",
@@ -34,6 +39,7 @@ class UserAdminConfig(UserAdmin):
                     "username",
                     "password1",
                     "password2",
+                    "tier",
                     "is_active",
                     "is_staff",
                 ),
@@ -43,3 +49,4 @@ class UserAdminConfig(UserAdmin):
 
 
 admin.site.register(CustomUser, UserAdminConfig)
+admin.site.register(Tier)
