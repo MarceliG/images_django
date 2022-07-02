@@ -1,1 +1,7 @@
-docker-compose up
+## DOCKER
+docker-compose up   # run docker 
+docker exec -it <container_id> /bin/bash # Accessing the Docker containers
+
+## TESTS
+coverage run --omit='*/venv/*' manage.py test   # run tests
+coverage html   # save test to file
