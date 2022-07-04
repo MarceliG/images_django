@@ -1,6 +1,8 @@
 ## DOCKER
 docker-compose up   # run docker 
+docker ps   # show all container
 docker exec -it <container_id> /bin/bash # Accessing the Docker containers
+
 
 ## TESTS
 coverage run --omit='*/venv/*' manage.py test   # run tests

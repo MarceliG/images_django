@@ -5,3 +5,4 @@ venv
 *pyc
 core/static
 data
+test_data
