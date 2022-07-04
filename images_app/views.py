@@ -16,7 +16,11 @@ def home(request):
     user = request.user
     if request.user.is_authenticated:
         if user.is_staff:
+<<<<<<< HEAD
             images = UserImage.objects.all()
+=======
+            images = ImageModel.objects.all()
+>>>>>>> 3d1493e46cdb2afa6fd25b33238efb8f30c723a6
         # else:
         # images = user.client.imagemodel.all()
 

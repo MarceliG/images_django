@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 version: "3.9"
 
 services:
   db:
+=======
+services:
+  db_test:
+>>>>>>> 3d1493e46cdb2afa6fd25b33238efb8f30c723a6
     image: postgres
     volumes:
       - ./test_data/db:/var/lib/postgresql/data
@@ -10,6 +15,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
   web:
+<<<<<<< HEAD
     build: .
     command: >
       sh -c "python manage.py collectstatic --noinput &&
@@ -31,3 +37,13 @@ services:
     depends_on:
       - db
       - web
+=======
+    depends_on:
+      - db_test
+  test:
+    build: testService
+    depends_on:
+      - web
+    volumes:
+      - htmlcov:/code/htmlcov
+>>>>>>> 3d1493e46cdb2afa6fd25b33238efb8f30c723a6

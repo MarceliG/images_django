@@ -3,22 +3,46 @@ from django.db import models
 from PIL import Image, ImageOps
 import os
 
+<<<<<<< HEAD
 from users.models import CustomUser
 
 
 class UserImage(models.Model):
+=======
+
+# class Client(models.Model):
+#     user = models.OneToOneField(
+#         User,
+#         on_delete=models.CASCADE,
+#         related_name="client",
+#     )
+#     grup = models.ForeignKey(Group, on_delete=models.CASCADE)
+
+#     def __str__(self):
+#         """
+#         Returns:
+#             information
+#         """
+#         return "{}".format(self.user)
+
+
+class ImageModel(models.Model):
+>>>>>>> 3d1493e46cdb2afa6fd25b33238efb8f30c723a6
     # client = models.ForeignKey(
     #     Client,
     #     on_delete=models.CASCADE,
     #     null=True,
     #     related_name="imagemodel",
     # )
+<<<<<<< HEAD
     custom_user = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,
         null=True,
         related_name="user_image",
     )
+=======
+>>>>>>> 3d1493e46cdb2afa6fd25b33238efb8f30c723a6
     name = models.CharField(max_length=100, blank=True)
     image = models.ImageField(null=True, blank=True)
     thumbnail_200px = models.ImageField(blank=True)
