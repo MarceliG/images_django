@@ -1,5 +1,12 @@
+<<<<<<< HEAD
+version: "3.9"
+
+services:
+  db:
+=======
 services:
   db_test:
+>>>>>>> 3d1493e46cdb2afa6fd25b33238efb8f30c723a6
     image: postgres
     volumes:
       - ./test_data/db:/var/lib/postgresql/data
@@ -8,6 +15,29 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
   web:
+<<<<<<< HEAD
+    build: .
+    command: >
+      sh -c "python manage.py collectstatic --noinput &&
+             python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
+  tests:
+    build: ./testService
+    depends_on:
+      - db
+      - web
+=======
     depends_on:
       - db_test
   test:
@@ -16,3 +46,4 @@ services:
       - web
     volumes:
       - htmlcov:/code/htmlcov
+>>>>>>> 3d1493e46cdb2afa6fd25b33238efb8f30c723a6

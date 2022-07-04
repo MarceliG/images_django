@@ -1,9 +1,14 @@
 from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import User, Group
 from PIL import Image, ImageOps
 import os
 
+<<<<<<< HEAD
+from users.models import CustomUser
+
+
+class UserImage(models.Model):
+=======
 
 # class Client(models.Model):
 #     user = models.OneToOneField(
@@ -22,12 +27,22 @@ import os
 
 
 class ImageModel(models.Model):
+>>>>>>> 3d1493e46cdb2afa6fd25b33238efb8f30c723a6
     # client = models.ForeignKey(
     #     Client,
     #     on_delete=models.CASCADE,
     #     null=True,
     #     related_name="imagemodel",
     # )
+<<<<<<< HEAD
+    custom_user = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name="user_image",
+    )
+=======
+>>>>>>> 3d1493e46cdb2afa6fd25b33238efb8f30c723a6
     name = models.CharField(max_length=100, blank=True)
     image = models.ImageField(null=True, blank=True)
     thumbnail_200px = models.ImageField(blank=True)
@@ -44,7 +59,7 @@ class ImageModel(models.Model):
         self.name = filename_image(self.image)
         self.thumbnail_200px = thumbnail_image(self.image, size=(200, 200))
         self.thumbnail_400px = thumbnail_image(self.image, size=(400, 400))
-        super(ImageModel, self).save(force_update=force_update)
+        super(UserImage, self).save(force_update=force_update)
 
     def __str__(self):
         """
