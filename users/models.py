@@ -22,6 +22,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         on_delete=models.CASCADE,
         related_name="user_tier",
         null=True,
+        blank=False,
     )
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
