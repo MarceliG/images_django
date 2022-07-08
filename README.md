@@ -27,9 +27,9 @@ Different accounts tier has different possibilities:
 - may create a thumbnail image with any size
 
 ## URLS
-http://localhost:8000/ - home (some frontend) <br/>
+http://localhost:8000/api - Rest Framework Django <br/>
 http://localhost:8000/admin - admin page <br/>
-http://localhost:8000/api/ - Rest Framework Django (main APP) <br/>
+http://localhost:8000/ - some frontend <br/>
 
 ## Users
 If you want to log in as previously prepared users, use the username and password below.

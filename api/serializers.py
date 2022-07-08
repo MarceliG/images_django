@@ -32,15 +32,13 @@ class ImageSerializer(serializers.ModelSerializer):
         model = UserImage
         fields = [
             "id",
-            "custom_user",
+            "user",
+            "original_image",
             "name",
-            "image",
-            "thumbnail",
         ]
         extra_kwargs = {
             "name": {"read_only": True},
-            "custom_user": {"read_only": True},
-            "thumbnail": {"read_only": True},
+            "user": {"read_only": True},
         }
 
 
@@ -49,10 +47,14 @@ class ThubmnailSerializer(serializers.ModelSerializer):
         model = Thumbnail
         fields = [
             "id",
-            "thumbnail_200px",
-            "thumbnail_400px",
+            "user",
+            "chose_image",
+            "thumbnail",
+            "name",
+            "size",
         ]
         extra_kwargs = {
-            "thumbnail_200px": {"read_only": True},
-            "thumbnail_400px": {"read_only": True},
+            "name": {"read_only": True},
+            "user": {"read_only": True},
+            "thumbnail": {"read_only": True},
         }

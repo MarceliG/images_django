@@ -1,4 +1,3 @@
-from django import views
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from api.serializers import (
@@ -33,9 +32,23 @@ class ImageViewSet(viewsets.ModelViewSet):
             return user.user_image.all()
 
     def perform_create(self, serializer):
-        serializer.save(custom_user=self.request.user)
+        serializer.save(user=self.request.user)
 
 
 class ThumbnailViewSet(viewsets.ModelViewSet):
     serializer_class = ThubmnailSerializer
-    queryset = Thumbnail.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff:
+            return Thumbnail.objects.all()
+        else:
+            return user.user_thumbnail.all()
+
+    def perform_create(self, serializer):
+        # if Thumbnail.user_thumbnail.tier.tier == "basic":
+        serializer.save(
+            user=self.request.user,
+            thumbnail=self.request.user,
+        )
