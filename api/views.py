@@ -47,7 +47,6 @@ class ThumbnailViewSet(viewsets.ModelViewSet):
             return user.user_thumbnail.all()
 
     def perform_create(self, serializer):
-        # if Thumbnail.user_thumbnail.tier.tier == "basic":
         serializer.save(
             user=self.request.user,
             thumbnail=self.request.user,

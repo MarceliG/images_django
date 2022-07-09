@@ -1,4 +1,5 @@
 from dataclasses import field
+from email.policy import default
 from rest_framework import serializers
 from images_app.models import Thumbnail, UserImage
 from users.models import CustomUser, Tier
@@ -43,6 +44,8 @@ class ImageSerializer(serializers.ModelSerializer):
 
 
 class ThubmnailSerializer(serializers.ModelSerializer):
+    size = serializers.IntegerField(default=200)
+
     class Meta:
         model = Thumbnail
         fields = [
@@ -54,6 +57,7 @@ class ThubmnailSerializer(serializers.ModelSerializer):
             "size",
         ]
         extra_kwargs = {
+            "size": {"default": 200},
             "name": {"read_only": True},
             "user": {"read_only": True},
             "thumbnail": {"read_only": True},
