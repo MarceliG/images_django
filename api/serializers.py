@@ -28,7 +28,28 @@ class TierSerializer(serializers.ModelSerializer):
         }
 
 
+class ThubmnailSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Thumbnail
+        fields = [
+            "id",
+            "choose_image",
+            "thumbnail",
+            "size",
+        ]
+        extra_kwargs = {
+            "size": {"read_only": True},
+            "name": {"read_only": True},
+            "user": {"read_only": True},
+            "thumbnail": {"read_only": True},
+            "choose_image": {"read_only": True},
+        }
+
+
 class ImageSerializer(serializers.ModelSerializer):
+    thumbnails = ThubmnailSerializer(read_only=True, many=True)
+
     class Meta:
         model = UserImage
         fields = [
@@ -36,29 +57,9 @@ class ImageSerializer(serializers.ModelSerializer):
             "user",
             "original_image",
             "name",
+            "thumbnails",
         ]
         extra_kwargs = {
             "name": {"read_only": True},
             "user": {"read_only": True},
-        }
-
-
-class ThubmnailSerializer(serializers.ModelSerializer):
-    size = serializers.IntegerField(default=200)
-
-    class Meta:
-        model = Thumbnail
-        fields = [
-            "id",
-            "user",
-            "chose_image",
-            "thumbnail",
-            "name",
-            "size",
-        ]
-        extra_kwargs = {
-            "size": {"default": 200},
-            "name": {"read_only": True},
-            "user": {"read_only": True},
-            "thumbnail": {"read_only": True},
         }

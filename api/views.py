@@ -27,13 +27,13 @@ class ImageViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_staff:
-            return UserImage.objects.all()
+            return UserImage.objects.prefetch_related("thumbnails").all()
         else:
-            return user.user_image.all()
+            return user.user_image.prefetch_related("thumbnails").all()
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-
+        
 
 class ThumbnailViewSet(viewsets.ModelViewSet):
     serializer_class = ThubmnailSerializer
@@ -44,7 +44,7 @@ class ThumbnailViewSet(viewsets.ModelViewSet):
         if user.is_staff:
             return Thumbnail.objects.all()
         else:
-            return user.user_thumbnail.all()
+            return user.thumbnails.all()
 
     def perform_create(self, serializer):
         serializer.save(
