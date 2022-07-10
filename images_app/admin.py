@@ -15,5 +15,4 @@ class ImageModelAdmin(admin.ModelAdmin):
 class ThumbnailAdmin(admin.ModelAdmin):
     readonly_fields = (
         "thumbnail",
-        "name",
     )

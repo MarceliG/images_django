@@ -7,12 +7,34 @@ from .managers import CustomUserManager
 
 
 class Tier(models.Model):
+    TIERS = (
+        ("basic", "BASIC"),
+        ("premium", "PREMIUM"),
+        ("enterprise", "ENTERPRISE"),
+    )
+    SIZES = (
+        ("small", 200),
+        ("medium", 400),
+    )
     tier = models.CharField(
-        _("tier"), max_length=50, unique=True, blank=False, null=False
+        _("tier"),
+        max_length=50,
+        unique=True,
+        choices=TIERS,
+        default="BASIC",
+        blank=False,
+        null=False,
+    )
+    sizes = models.CharField(
+        max_length=50,
+        blank=False,
+        null=False,
+        choices=SIZES,
+        default=200,
     )
 
     def __str__(self):
-        return self.tier
+        return str(self.tier)
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
@@ -34,4 +56,4 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
     def __str__(self):
-        return self.username
+        return str(self.username)

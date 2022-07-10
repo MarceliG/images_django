@@ -1,4 +1,5 @@
 from dataclasses import field
+from email.policy import default
 from rest_framework import serializers
 from images_app.models import Thumbnail, UserImage
 from users.models import CustomUser, Tier
@@ -27,32 +28,38 @@ class TierSerializer(serializers.ModelSerializer):
         }
 
 
-class ImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserImage
-        fields = [
-            "id",
-            "custom_user",
-            "name",
-            "image",
-            "thumbnail",
-        ]
-        extra_kwargs = {
-            "name": {"read_only": True},
-            "custom_user": {"read_only": True},
-            "thumbnail": {"read_only": True},
-        }
-
-
 class ThubmnailSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Thumbnail
         fields = [
             "id",
-            "thumbnail_200px",
-            "thumbnail_400px",
+            "choose_image",
+            "thumbnail",
+            "size",
         ]
         extra_kwargs = {
-            "thumbnail_200px": {"read_only": True},
-            "thumbnail_400px": {"read_only": True},
+            "size": {"read_only": True},
+            "name": {"read_only": True},
+            "user": {"read_only": True},
+            "thumbnail": {"read_only": True},
+            "choose_image": {"read_only": True},
+        }
+
+
+class ImageSerializer(serializers.ModelSerializer):
+    thumbnails = ThubmnailSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = UserImage
+        fields = [
+            "id",
+            "user",
+            "original_image",
+            "name",
+            "thumbnails",
+        ]
+        extra_kwargs = {
+            "name": {"read_only": True},
+            "user": {"read_only": True},
         }

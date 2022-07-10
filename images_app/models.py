@@ -40,7 +40,7 @@ def thumbnail_image(image_input, size=(200, 200)):
 
 
 class UserImage(models.Model):
-    custom_user = models.ForeignKey(
+    user = models.ForeignKey(
         CustomUser,
         on_delete=models.CASCADE,
         null=True,
@@ -48,9 +48,6 @@ class UserImage(models.Model):
     )
     original_image = models.ImageField(null=True, blank=True)
     name = models.CharField(max_length=100, blank=True)
-
-    # thumbnail_200px = models.ImageField(blank=True)
-    # thumbnail_400px = models.ImageField(blank=True)
 
     def save(
         self,
@@ -72,14 +69,13 @@ class UserImage(models.Model):
 
 
 class Thumbnail(models.Model):
-    chose_image = models.ForeignKey(
+    choose_image = models.ForeignKey(
         UserImage,
         on_delete=models.CASCADE,
         null=True,
-        related_name="chose_image",
+        related_name="thumbnails",
     )
     thumbnail = models.ImageField(null=True, blank=True)
-    name = models.CharField(max_length=100, blank=True)
     size = models.IntegerField(blank=True, null=True, default=200)
 
     def save(
@@ -90,29 +86,9 @@ class Thumbnail(models.Model):
         update_fields=None,
     ):
         """When save"""
-        if self.chose_image.custom_user.tier.tier == "admin":
-            self.thumbnail = thumbnail_image(
-                self.chose_image.original_image, size=(self.size, self.size)
-            )
-        elif self.chose_image.custom_user.tier.tier == "basic":
-            self.thumbnail = thumbnail_image(
-                self.chose_image.original_image, size=(200, 200)
-            )
-        elif self.chose_image.custom_user.tier.tier == "premium":
-            self.thumbnail = thumbnail_image(
-                self.chose_image.original_image, size=(200, 200)
-            )
-            self.thumbnail = thumbnail_image(
-                self.chose_image.original_image, size=(400, 400)
-            )
-        elif self.chose_image.custom_user.tier.tier == "enterprise":
-            self.thumbnail = thumbnail_image(
-                self.chose_image.original_image, size=(200, 200)
-            )
-            self.thumbnail = thumbnail_image(
-                self.chose_image.original_image, size=(400, 400)
-            )
-        self.name = filename_image(self.thumbnail)
+        self.thumbnail = thumbnail_image(
+            self.choose_image.original_image, size=(self.size, self.size)
+        )
         super(Thumbnail, self).save(force_update=force_update)
 
     def __str__(self):
@@ -120,4 +96,4 @@ class Thumbnail(models.Model):
         Returns:
             name
         """
-        return "{}".format(self.name)
+        return "{}".format(self.size)
