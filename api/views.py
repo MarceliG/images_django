@@ -33,11 +33,12 @@ class ImageViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-        
+
 
 class ThumbnailViewSet(viewsets.ModelViewSet):
     serializer_class = ThubmnailSerializer
     permission_classes = [IsAuthenticated]
+    http_method_names = ["get"]
 
     def get_queryset(self):
         user = self.request.user

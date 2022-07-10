@@ -96,4 +96,4 @@ class Thumbnail(models.Model):
         Returns:
             name
         """
-        return "{}".format(self.name)
+        return "{}".format(self.size)
